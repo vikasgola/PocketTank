@@ -25,6 +25,7 @@
     <script src="js/tweenjs.js"></script>
     <script src="js/soundjs.js"></script>
     <script src="js/preloadjs.js"></script>
+    <script src="js/matter.js"></script>
 </head>
 
 <body onload="loadAssests('<?php echo $username; ?>')">

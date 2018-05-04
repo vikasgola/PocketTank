@@ -92,7 +92,6 @@ function drawTexting(player){
         t.y = height/30;    
         pocketTank.x = width/2 - width/6;
         pocketTank.y = height - height/5;
-        stage.addChild(pocketTank);
         stage.addChild(username);    
     }
     stage.addChild(t);

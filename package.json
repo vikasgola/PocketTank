@@ -1,0 +1,9 @@
+{
+    "name": "pockettank",
+    "version": "0.1.0",
+    "description": "pocket tank game",
+    "dependencies": {
+        "express": "^4.16.3",
+        "php-express": "0.0.3"
+    }
+}
