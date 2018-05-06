@@ -64,11 +64,20 @@ function init(){
     tank2.setPos(terrain.points[tank2.indexPos].x,terrain.points[tank2.indexPos].y);
     stage.addChild(tank2.tank);
 
-    // weapons
+    // weapons              power    color   size    gravity
+    // singleshot ->        100      brown    10        10
+    // tripleshot ->        80      brown    12        12
+    // fiveshot ->          60      brown    13        13
+    // oilshot ->           120      yellow    11        10
+    // missile ->           200     red-black   15        15
+    // straightAttack->     100      red        10        0
+    
     singleShot = new weapon("singleShot",100,"brown",10,10);
-    tripleShot = new weapon("tripleShot",80,"brown",12,12);
-    fiveShot = new weapon("singleShot",60,"brown",25,10);
-    oilShot = new weapon("oilShot",100,"yellow",12,10);
+    tripleShot = new weapon("tripleShot",80,"brown",10,10);
+    fiveShot = new weapon("fiveShot",60,"brown",10,10);
+    oilFire = new weapon("oilShot",120,"yellow",10,10);
+    straightAttack = new weapon("straightShot",120,"black",10,0);
+    missile = new weapon("missile",150,"black",13,15);
 }
 
 
@@ -84,7 +93,8 @@ function keyboardKeys(event){
             tank1.moveBackward();
             break;
         case 32:
-            tripleShot.move(40,100,tank1.tank.x,tank1.tank.y);
+            missile.move(45,100,tank1.tank.x,tank1.tank.y);
+            break;
     }
 }
 
