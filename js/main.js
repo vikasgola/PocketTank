@@ -65,10 +65,10 @@ function init(){
     stage.addChild(tank2.tank);
 
     // weapons
-    singleShot = new weapon("singleShot",100,"brown",10);
-    tripleShot = new weapon("tripleShot",80,"brown",20);
-    fiveShot = new weapon("singleShot",60,"brown",25);
-    oilShot = new weapon("oilShot",100,"yellow",12);
+    singleShot = new weapon("singleShot",100,"brown",10,10);
+    tripleShot = new weapon("tripleShot",80,"brown",12,12);
+    fiveShot = new weapon("singleShot",60,"brown",25,10);
+    oilShot = new weapon("oilShot",100,"yellow",12,10);
 }
 
 
@@ -84,7 +84,7 @@ function keyboardKeys(event){
             tank1.moveBackward();
             break;
         case 32:
-            fire();
+            tripleShot.move(40,100,tank1.tank.x,tank1.tank.y);
     }
 }
 
