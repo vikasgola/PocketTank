@@ -1,0 +1,19 @@
+{
+  "name": "pockettank",
+  "version": "1.0.0",
+  "description": "pocket-tank web game ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikasgola/PocketTank.git"
+  },
+  "author": "Vikas Gola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vikasgola/PocketTank/issues"
+  },
+  "homepage": "https://github.com/vikasgola/PocketTank#readme"
+}

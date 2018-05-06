@@ -43,6 +43,14 @@ function weapon(nameWeapon,power,color,size,gravity){
         }
     };
 
+    this.disableKeys = function(tf,listener){
+        if(tf){
+            window.removeEventListener("keydown" , listener); 
+        }else{
+            window.addEventListener("keydown" , listener);
+        }
+    };
+
 
 
 
@@ -90,7 +98,7 @@ function weapon(nameWeapon,power,color,size,gravity){
             pat.push(lastpoint.x);pat.push(lastpoint.y);
         }
 
-        createjs.Tween.get(single.weapon).to({guide:{path:pat}},pat.length*100);
+        createjs.Tween.get(single.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(single.weapon)});
 
         destroy(single,attackpoint);
     }
@@ -150,7 +158,7 @@ function weapon(nameWeapon,power,color,size,gravity){
             pat.push(lastpoint.x);pat.push(lastpoint.y);
         }
 
-        createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100);        
+        createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(main.weapon)});        
     }
 
 
@@ -165,11 +173,8 @@ function weapon(nameWeapon,power,color,size,gravity){
         for(var j=0;x < terrain.width;j+=1){
             y = -1*velocity*Math.sin(angle)*j + 0.5*main.gravity*j*j + main.weapon.y;
 
-            console.log("tank2: " + Math.floor(tank2.tank.x));
-            console.log("goli: " + Math.floor(x));
-            
-            if( 40 + Math.floor(tank2.tank.x) >= Math.floor(x) && 
-                -40 + Math.floor(tank2.tank.x) <= Math.floor(x)){
+            if( 100 + Math.floor(tank2.tank.x) >= Math.floor(x) && 
+                -100 + Math.floor(tank2.tank.x) <= Math.floor(x)){
                 x = tank2.tank.x + 50;
             }else{
                 x = velocity*Math.cos(angle)*j + main.weapon.x;
@@ -204,7 +209,7 @@ function weapon(nameWeapon,power,color,size,gravity){
             pat.push(lastpoint.x);pat.push(lastpoint.y);
         }
 
-        createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100);
+        createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(main.weapon)});
 
     }
 }

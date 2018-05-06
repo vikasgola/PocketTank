@@ -37,7 +37,7 @@ function init(){
 
     stage = new createjs.Stage("canvas");
     createjs.Ticker.addEventListener("tick", stage);
-    window.addEventListener("keydown" , function(ev){keyboardKeys(ev);});
+    window.addEventListener("keydown" , keyboardKeys);
 
     // clouding
     terrain.setSize(width,height);
@@ -89,7 +89,9 @@ function keyboardKeys(event){
             tank1.moveBackward();
             break;
         case 32:
-            chaser.fire(45,100,tank1.tank.x,tank1.tank.y);
+            tripleShot.disableKeys(true,keyboardKeys);
+            tripleShot.fire(45,100,tank1.tank.x,tank1.tank.y);
+            setTimeout(function(){chaser.disableKeys(false,keyboardKeys);},4000);
             break;
     }
 }
