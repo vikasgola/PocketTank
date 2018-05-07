@@ -7,6 +7,12 @@ var singleShot,tripleShot,fiveShot,oilFire,dirt,dirtRemover,straightAttack,missi
 var message = document.getElementById("message");
 var send = document.getElementById("send");
 
+if(menu.mode != ""){
+    document.getElementById("game").style.display = "block";    
+    loadAssests();
+}
+
+
 
 // loading images and intiallising variables
 function loadAssests(){
@@ -131,5 +137,6 @@ function chatbox(event){
 
 
 function exitGame(){
+    menu.mode = "";
     window.location.pathname = "/html/menu.html"
 }
