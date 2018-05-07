@@ -1,7 +1,7 @@
 {
   "name": "pockettank",
   "version": "1.0.0",
-  "description": "pocket-tank web game ",
+  "description": "pocket tank game web",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/vikasgola/PocketTank/issues"
   },
-  "homepage": "https://github.com/vikasgola/PocketTank#readme"
+  "homepage": "https://github.com/vikasgola/PocketTank#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^2.1.0"
+  },
+  "devDependencies": {}
 }
