@@ -4,6 +4,9 @@ var canvas;
 var images;
 var tank1,tank2;
 var singleShot,tripleShot,fiveShot,oilFire,dirt,dirtRemover,straightAttack,missile,chaser;
+var message = document.getElementById("message");
+var send = document.getElementById("send");
+
 
 // loading images and intiallising variables
 function loadAssests(){
@@ -38,6 +41,11 @@ function init(){
     stage = new createjs.Stage("canvas");
     createjs.Ticker.addEventListener("tick", stage);
     window.addEventListener("keydown" , keyboardKeys);
+    window.addEventListener("keydown",chatbox);
+    window.onbeforeunload = function(event)
+    {
+        return confirm("Confirm refresh");
+    };
 
     // clouding
     terrain.setSize(width,height);
@@ -89,10 +97,34 @@ function keyboardKeys(event){
             tank1.moveBackward();
             break;
         case 32:
-            tripleShot.disableKeys(true,keyboardKeys);
-            tripleShot.fire(45,100,tank1.tank.x,tank1.tank.y);
-            setTimeout(function(){chaser.disableKeys(false,keyboardKeys);},4000);
+            if(message.style.display == "none" && send.style.display == "none"){
+                tripleShot.disableKeys(true,keyboardKeys);
+                tripleShot.fire(45,100,tank1.tank.x,tank1.tank.y);
+                setTimeout(function(){chaser.disableKeys(false,keyboardKeys);},4000);
+            }
+            break;
+        case 13:
+            if(message.style.display != "none" && send.style.display != "none"){
+                sendMessage();
+            }
             break;
     }
 }
 
+
+function chatbox(event){
+    var key = event.keyCode;
+    switch(key){
+        case 192:
+            if(message.style.display == "none" && send.style.display == "none"){
+                message.style.display = "inline";
+                send.style.display = "inline";
+                message.focus();
+                message.scrollIntoView();
+                message.value = message.value.substring(0,message.value.length - 1);
+            }else{
+                message.style.display = "none";
+                send.style.display = "none";
+            }
+    }    
+}

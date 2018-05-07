@@ -1,0 +1,4 @@
+var computer = function(){
+
+    
+}

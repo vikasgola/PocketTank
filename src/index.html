@@ -45,22 +45,40 @@
     <!-- aditional js -->
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
     
 </head>
 
 <body onload="loadAssests()">
         <!-- <div class="loader"></div> -->
+
+    <div class="row m-0 p-0">
+            <div class="col position-absolute">
+                <div id="pocket-chat" class="float-right">
+                    <div id="chat-window" class="text-white m-0" >
+                        <div id="output"></div>
+                    </div>
+                    <input id="message" class="rounded p-1" type="message" placeholder="Message"/>
+                    <button id="send" onclick="sendMessage()" class="btn-black p-1 rounded">Send</button>
+                </div>    
+            </div>
+        </div>            
+        
     <div class="row m-0 p-0">
         <div class="col position-absolute">
-                <button onclick="logout()" class="mt-1 p-1 border-dark rounded btn-black float-right">
-                        Logout
-                </button>
-            </div>
+            <button onclick="logoutMe()" class="d-block mt-1 p-1 border-dark rounded btn-black float-right">
+                    Logout
+            </button>
+        </div>
     </div>
 
+ 
+ 
     <canvas id = "canvas" width="0" height="0"></canvas>
 
+
+    <script src="js/chat.js"></script>
     <script src="js/login.js"></script>
     <script src="js/main.js" ></script>
 </body>

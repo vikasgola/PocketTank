@@ -9,3 +9,13 @@ var server = app.listen(3000,function(){
 });
 
 app.use(express.static('src'));
+
+var io = socket(server);
+
+io.on('connection',function(socket){
+    console.log(socket.id);
+
+    socket.on("chat",function(data){
+        io.sockets.emit("chat",data);
+    });
+});
