@@ -1,0 +1,56 @@
+html , body{
+    height: 100%;
+}
+
+body.menu{
+    background-color: black;
+    font-size: 14px;
+    margin: auto auto;
+}
+
+
+.menu .card-wrapper {
+	width: 400px;
+	margin: auto auto;
+}
+
+.menu .card {
+	border-color: transparent;
+	box-shadow: 0 0 40px rgba(0,0,0,.05);
+}
+
+.menu .card.fat {
+	padding: 10px;
+}
+
+.menu .card .card-title {
+	margin-bottom: 30px;
+}
+
+
+.menu .btn.btn-block {
+	padding: 12px 10px;
+}
+
+.menu .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+	.menu .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.menu .card.fat {
+		padding: 0;
+	}
+
+	.menu .card.fat .card-body {
+		padding: 15px;
+	}
+}

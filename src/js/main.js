@@ -128,3 +128,8 @@ function chatbox(event){
             }
     }    
 }
+
+
+function exitGame(){
+    window.location.pathname = "/html/menu.html"
+}

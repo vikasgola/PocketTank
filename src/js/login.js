@@ -13,12 +13,11 @@ firebase.auth().onAuthStateChanged(function(user) {
         var providerData = user.providerData;
                 
         if( (window.location.pathname == "/html/login.html" || window.location.pathname == "/html/register.html")
-            || window.location.pathname != "/index.html"){
-                window.location.pathname = "/index.html";
+            || window.location.pathname != "/html/menu.html"){
+                window.location.pathname = "/html/menu.html";
             }
     }else {
-        console.log(window.location.pathname);
-        if(window.location.pathname == "/" || window.location.pathname == "/index.html")
+        if(window.location.pathname == "/index.html" || window.location.pathname == "/html/menu.html")
             window.location.pathname = "/html/login.html";
     }
 
