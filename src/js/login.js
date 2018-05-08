@@ -13,7 +13,6 @@ firebase.auth().onAuthStateChanged(function(user) {
         var isAnonymous = user.isAnonymous;
         var uid = user.uid;
         var providerData = user.providerData;
-        
         if( (window.location.pathname == "/html/login.html" || window.location.pathname == "/html/register.html")
             && window.location.pathname != "/html/menu.html" && window.location.pathname != "/" && window.location.pathname != "/index.html"){
                 window.location.pathname = "/html/menu.html";

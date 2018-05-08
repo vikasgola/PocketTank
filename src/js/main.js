@@ -7,7 +7,7 @@ var singleShot,tripleShot,fiveShot,oilFire,dirt,dirtRemover,straightAttack,missi
 var message = document.getElementById("message");
 var send = document.getElementById("send");
 
-if(menu.mode != ""){
+if(localStorage["mode"]){
     document.getElementById("game").style.display = "block";    
     loadAssests();
 }
@@ -29,6 +29,8 @@ function loadAssests(){
         {id:"terrain" , src:"images/terrain.jpg"},
         {id:"tank1" , src: "images/tank1.png"},
         {id:"tank2" , src: "images/tank2.png"},
+        {id:"nozzle1" , src: "images/nozzle1.png"},
+        {id:"nozzle2" , src: "images/nozzle2.png"},
         {id:"single" , src: "images/single.png"},
         {id:"multi" , src: "images/multi.png"},
         {id:"lan" , src: "images/lan.png"},
@@ -39,7 +41,7 @@ function loadAssests(){
 
 function init(){
     canvas = document.getElementById("canvas");     //canvas
-    canvas.width = window.innerWidth - window.innerWidth/100;
+    canvas.width = window.innerWidth - window.innerWidth/110;
     canvas.height = window.innerHeight - window.innerHeight/50;
     width = canvas.width;
     height = canvas.height;
@@ -68,26 +70,28 @@ function init(){
 
 
     // tanks
-    tank1 = new tank(images.getResult("tank1"),images.getResult("tank1"));
+    tank1 = new tank(images.getResult("tank1"),images.getResult("nozzle1"));
     tank1.indexPos = Math.floor(terrain.points.length/6);
     tank1.setPos(terrain.points[tank1.indexPos].x,terrain.points[tank1.indexPos].y);
+    tank1.nozzle.x += 36;
+    tank1.angle = 0;
     stage.addChild(tank1.tank);
+    stage.addChild(tank1.nozzle);
 
-    tank2 = new tank(images.getResult("tank2"),images.getResult("tank1"));
+    tank2 = new tank(images.getResult("tank2"),images.getResult("nozzle2"));
     tank2.indexPos = Math.floor(5*terrain.points.length/6);
     tank2.setPos(terrain.points[tank2.indexPos].x,terrain.points[tank2.indexPos].y);
     stage.addChild(tank2.tank);
+    stage.addChild(tank2.nozzle);
 
-
-    // weapons
-    
-    singleShot = new weapon("singleShot",100,"brown",10,10);
-    tripleShot = new weapon("tripleShot",80,"brown",10,10);
-    fiveShot = new weapon("fiveShot",60,"brown",10,10);
-    oilFire = new weapon("oilShot",120,"yellow",10,10);
-    straightAttack = new weapon("straightShot",120,"black",10,0);
-    missile = new weapon("missile",150,"black",13,15);
-    chaser = new weapon("chaser",150,"black",10,10);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user){
+            game.playerOne = user.email;                                        
+            game.start();
+        }else{
+            console.log("network error!");
+        }
+    });
 }
 
 
@@ -95,25 +99,56 @@ function init(){
 function keyboardKeys(event){
     var key = event.keyCode;
 
-    switch(key){
-        case 39:
-            tank1.moveForward();
-            break;
-        case 37:
-            tank1.moveBackward();
-            break;
-        case 32:
-            if(message.style.display == "none" && send.style.display == "none"){
-                tripleShot.disableKeys(true,keyboardKeys);
-                tripleShot.fire(45,100,tank1.tank.x,tank1.tank.y);
-                setTimeout(function(){chaser.disableKeys(false,keyboardKeys);},4000);
-            }
-            break;
-        case 13:
-            if(message.style.display != "none" && send.style.display != "none"){
-                sendMessage();
-            }
-            break;
+    if(message.style.display == "none" && send.style.display == "none"){
+
+        switch(key){
+            case 39:
+                tank1.moveForward();
+                break;
+            case 37:
+                tank1.moveBackward();
+                break;
+            case 38:
+                tank1.setNozzle(-1*tank1.angle - 1);
+                break;
+            case 40:
+                tank1.setNozzle(-1*tank1.angle + 1);
+                break;
+            case 32:
+                game.weapon.fire(tank1.angle,game.weapon.velocity,tank1.tank.x,tank1.tank.y);
+                break;
+            case 49:
+                game.selectWeapon("singleShot");
+                break;
+            case 50:
+                game.selectWeapon("tripleShot");
+                break;
+            case 51:
+                game.selectWeapon("fiveShot");
+                break;
+            case 52:
+                game.selectWeapon("oilShot");
+                break;
+            case 53:
+                game.selectWeapon("straightShot");
+                break;
+            case 54:
+                game.selectWeapon("missile");
+                break;
+            case 55:
+                game.selectWeapon("chaser");
+                break;
+            case 107:
+                game.weapon.velocity +=1;
+                break;
+            case 109:
+                game.weapon.velocity -= 1;
+                break;
+        }
+    }else{
+        if(key == 13){
+            sendMessage();
+        }
     }
 }
 
@@ -137,6 +172,5 @@ function chatbox(event){
 
 
 function exitGame(){
-    menu.mode = "";
-    window.location.pathname = "/html/menu.html"
+    game.exit();
 }

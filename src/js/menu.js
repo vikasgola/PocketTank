@@ -1,23 +1,15 @@
-
-var menu = function(){
-    this.mode;
-    this.setMode = function(mode){
-        this.mode = mode;
-    };
-}
-
 function singlePlayer(){
-    menu.mode = "singlePlayer";
+    localStorage["mode"] = "singlePlayer";
     window.location.pathname = "../index.html";
 }
 
 
 function multiPlayer(){
-    menu.mode = "multiPlayer";    
+    localStorage["mode"] = "multiPlayer";    
     window.location.pathname = "../index.html";
 }
 
 function lanMultiplayer(){
-    menu.mode = "lanMultiplayer";
+    localStorage["mode"] = "lanMultiplayer";
     window.location.pathname = "../index.html";
 }

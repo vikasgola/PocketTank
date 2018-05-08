@@ -1,19 +1,24 @@
-var computer = function(){
+var computer = new function(){
     this.tank = tank2;
     
-    this.mode;
-    this.setMode = function(mode){
-        this.mode = mode;
+    this.level;
+    this.setLevel = function(level){
+        this.level = level;
     };
 
     this.fire = function(){
-        if(this.mode == "easy"){
+        if(this.level == "easy"){
             easy();
-        }else if(this.mode == "intermediate"){
+        }else if(this.level == "intermediate"){
             intermediate();
         }else{
             hard();
         }
     };
+
+
+    function intermediate(){
+
+    }
 
 }

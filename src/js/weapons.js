@@ -7,6 +7,8 @@ function weapon(nameWeapon,power,color,size,gravity){
     this.color = color;
     this.gravity = gravity;
 
+    this.velocity = 100;
+
     this.weapon = new createjs.Shape();
     this.weapon.graphics.beginFill(this.color).drawCircle(0,0,this.size);
     
@@ -20,6 +22,7 @@ function weapon(nameWeapon,power,color,size,gravity){
     };
 
     this.fire = function(angleInitial,velocity,x,y){
+        game.weapon.disableKeys(true,keyboardKeys);        
         switch(this.name){
             case "singleShot":
                 singleShot(this,angleInitial,velocity,x,y);
@@ -41,6 +44,7 @@ function weapon(nameWeapon,power,color,size,gravity){
                 chaserShot(this,angleInitial,velocity,x,y);
                 break;
         }
+        setTimeout(function(){game.weapon.disableKeys(false,keyboardKeys);},4000);        
     };
 
     this.disableKeys = function(tf,listener){
@@ -51,10 +55,6 @@ function weapon(nameWeapon,power,color,size,gravity){
         }
     };
 
-
-
-
-// =================================================================================================
 
     function singleShot(single,angleInitial,velocity,x,y){
 
