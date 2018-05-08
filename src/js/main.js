@@ -104,7 +104,6 @@ function keyboardKeys(event){
                 game.currentTank.setNozzle(-1*game.currentTank.angle + 1);
                 break;
             case 32:
-                console.log(game.currentTank);
                 game.weapon.fire(game.currentTank.angle,game.weapon.velocity,game.currentTank.tank.x,game.currentTank.tank.y);
                 if(game.gamemode == "singlePlayer"){
                     notifyUser("It's My Turn.");
