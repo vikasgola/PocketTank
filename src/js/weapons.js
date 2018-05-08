@@ -25,7 +25,7 @@ function weapon(nameWeapon,power,color,size,gravity){
 
     this.fire = function(angleInitial,velocity,x,y){
         this.crash = 0;
-        game.weapon.disableKeys(true,keyboardKeys);        
+        game.weapon.disableKeys(true,keyboardKeys); 
         switch(this.name){
             case "singleShot":
                 singleShot(this,angleInitial,velocity,x,y,this.crash);

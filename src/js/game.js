@@ -137,6 +137,7 @@ var game = new function(){
             game.currentTank = game.tank2;
             computer.fire();
         }else if(game.turn == 0){
+            notifyUser("It's " + game.playerOne + " turn.");            
             game.currentTank = game.tank1; 
         }   
     }

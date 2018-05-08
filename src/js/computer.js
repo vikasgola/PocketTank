@@ -8,7 +8,7 @@ var computer = new function(){
         this.findWeapon();
         game.weapon.disableKeys(true,keyboardKeys);                
 
-        game.weapon.velocity = randomBetween(70,100);
+        game.weapon.velocity = randomBetween(70,140);
         game.tank2.setNozzle(randomBetween(-160,-120));
 
         if(this.level == "easy"){
@@ -46,12 +46,12 @@ var computer = new function(){
 
     function level(k){
         if(Math.random() > k){
-            game.weapon.velocity = 100;
+            game.weapon.velocity = 200;
             var x = game.tank2.tank.x - game.tank1.tank.x;
             var y = game.tank2.tank.y - game.tank1.tank.y;
-            var z = 5*x*x/10000;
+            var z = 5*x*x/(game.weapon.velocity*game.weapon.velocity);
             var angle = (Math.atan( (x  + Math.sqrt(x*x - 4*z*(z+y)) )/(2*z) ))*180/Math.PI;
-            console.log(angle);
+        
             game.tank2.setNozzle(-180 + angle);
         }
     }

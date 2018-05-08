@@ -77,19 +77,15 @@ function init(){
     game.tank2 = new tank(images.getResult("tank2"),images.getResult("nozzle2"));
 
 
-    firebase.auth().onAuthStateChanged(function(user) {
-        if(user){
-            game.playerOne = user.email.substring(0, user.email.lastIndexOf("@"));                                        
-            game.start();
-        }else{
-            console.log("network error!");
-        }
-    });
+    game.playerOne = localStorage["email"].substring(0, localStorage["email"].lastIndexOf("@")); 
+    if(localStorage["mode"] != "singlePlayer")
+        game.start();    
 }
 
 function resume(level){
     document.getElementById("gamelevel").style.display = "none";
-    computer.setLevel(level);    
+    computer.setLevel(level);
+    game.start();    
 }
 
 
