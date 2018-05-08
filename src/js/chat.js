@@ -11,7 +11,7 @@ send.style.display = "none";
 
 function sendMessage(){
     var message = document.getElementById("message");
-    socket.emit("chat",{ email:firebase.auth().currentUser.email , message:message.value});
+    socket.emit("chat",{ email:firebase.auth().currentUser.email.substring(0, firebase.auth().currentUser.email.lastIndexOf("@")) , message:message.value});
 
     message.value = "";
     setTimeout(function(){

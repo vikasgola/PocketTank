@@ -50,3 +50,11 @@ canvas{
         max-width: 100px;
 	}
 }
+
+.gamelevel{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}

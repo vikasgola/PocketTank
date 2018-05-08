@@ -7,6 +7,10 @@ var message = document.getElementById("message");
 var send = document.getElementById("send");
 
 if(localStorage["mode"]){
+    document.getElementById("gamelevel").style.display = "none";
+    if(localStorage["mode"] == "singlePlayer"){
+        document.getElementById("gamelevel").style.display = "block";
+    }
     document.getElementById("game").style.display = "block";    
     loadAssests();
 }
@@ -75,12 +79,17 @@ function init(){
 
     firebase.auth().onAuthStateChanged(function(user) {
         if(user){
-            game.playerOne = user.email;                                        
+            game.playerOne = user.email.substring(0, user.email.lastIndexOf("@"));                                        
             game.start();
         }else{
             console.log("network error!");
         }
     });
+}
+
+function resume(level){
+    document.getElementById("gamelevel").style.display = "none";
+    computer.setLevel(level);    
 }
 
 
@@ -108,6 +117,7 @@ function keyboardKeys(event){
                 if(game.gamemode == "singlePlayer"){
                     notifyUser("It's My Turn.");
                     setTimeout(function(){
+                        game.flipTurn();                    
                         computer.fire();
                         notifyUser("It's Your Turn.");
                     },5000);

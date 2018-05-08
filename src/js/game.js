@@ -133,12 +133,11 @@ var game = new function(){
             game.turn = 1;
         }
 
-        if(game.turn == 0){
-            game.turn = 1;
-            notifyUser("It's my turn.");         
+        if(game.turn == 1){
+            game.currentTank = game.tank2;
             computer.fire();
-        }else if(game.turn == 1){
-            notifyUser("It's your turn.");
+        }else if(game.turn == 0){
+            game.currentTank = game.tank1; 
         }   
     }
 

@@ -106,12 +106,12 @@ function weapon(nameWeapon,power,color,size,gravity){
           
             var y = pat[pat.length - 1];
             var x = pat[pat.length - 2];
-            if((x-100 < game.tank1.tank.x && x+100 > game.tank1.tank.x ) ){
-                if(y < game.tank1.tank.y + 200 ){
+            if((x-70 < game.tank1.tank.x && x+70 > game.tank1.tank.x ) ){
+                if(y < game.tank1.tank.y + 100 ){
                         crash = 1;
                 }
-            }else if((x-100 < game.tank2.tank.x && x+100 > game.tank2.tank.x ) ){
-                if(y < game.tank2.tank.y + 200 ){
+            }else if((x-70 < game.tank2.tank.x && x+70 > game.tank2.tank.x ) ){
+                if(y < game.tank2.tank.y + 100 ){
                     crash = -1;
                 }
             }
@@ -190,7 +190,6 @@ function weapon(nameWeapon,power,color,size,gravity){
             stage.removeChild(main.weapon);
         }
         
-
     }
 
 
@@ -264,7 +263,7 @@ function weapon(nameWeapon,power,color,size,gravity){
                 }
             });
 
-            createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(main.weapon);destroy(this.crash);});            
+            createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(main.weapon);destroy(crash);});            
         }else{
             stage.removeChild(main.weapon);
         }
@@ -273,10 +272,11 @@ function weapon(nameWeapon,power,color,size,gravity){
 
 
     function destroy(crash){
-        if(crash == 1){
+        console.log(crash);
+        if(crash == -1){
             var score = parseInt(game.score1.text.slice(7)) + game.weapon.power;
             game.score1.text = "Score: " + score;
-        }else if(crash == -1){
+        }else if(crash == 1){
             var score = parseInt(game.score2.text.slice(7)) + game.weapon.power;
             game.score2.text = "Score: " + score;
         }
