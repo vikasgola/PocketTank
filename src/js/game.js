@@ -73,14 +73,14 @@ var game = new function(){
 
 
         this.tank1.indexPos = Math.floor(terrain.points.length/6);
-        this.tank1.setPos(terrain.points[this.tank1.indexPos].x,terrain.points[this.tank1.indexPos].y);
+        this.tank1.setPos(terrain.points[this.tank1.indexPos].x - 20,terrain.points[this.tank1.indexPos].y);
         this.tank1.nozzle.x += 36;
         this.tank1.angle = 0;
         stage.addChild(this.tank1.tank);
         stage.addChild(this.tank1.nozzle);
 
         this.tank2.indexPos = Math.floor(5*terrain.points.length/6);
-        this.tank2.setPos(terrain.points[this.tank2.indexPos].x,terrain.points[this.tank2.indexPos].y);
+        this.tank2.setPos(terrain.points[this.tank2.indexPos].x - 60,terrain.points[this.tank2.indexPos].y);
         stage.addChild(this.tank2.tank);
         this.tank2.angle = 180;
         this.tank2.regX = 40;
