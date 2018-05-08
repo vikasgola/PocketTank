@@ -2,7 +2,6 @@ var stage;
 var width,height;
 var canvas;
 var images;
-var tank1,tank2;
 var singleShot,tripleShot,fiveShot,oilFire,dirt,dirtRemover,straightAttack,missile,chaser;
 var message = document.getElementById("message");
 var send = document.getElementById("send");
@@ -70,19 +69,9 @@ function init(){
 
 
     // tanks
-    tank1 = new tank(images.getResult("tank1"),images.getResult("nozzle1"));
-    tank1.indexPos = Math.floor(terrain.points.length/6);
-    tank1.setPos(terrain.points[tank1.indexPos].x,terrain.points[tank1.indexPos].y);
-    tank1.nozzle.x += 36;
-    tank1.angle = 0;
-    stage.addChild(tank1.tank);
-    stage.addChild(tank1.nozzle);
+    game.tank1 = new tank(images.getResult("tank1"),images.getResult("nozzle1"));
+    game.tank2 = new tank(images.getResult("tank2"),images.getResult("nozzle2"));
 
-    tank2 = new tank(images.getResult("tank2"),images.getResult("nozzle2"));
-    tank2.indexPos = Math.floor(5*terrain.points.length/6);
-    tank2.setPos(terrain.points[tank2.indexPos].x,terrain.points[tank2.indexPos].y);
-    stage.addChild(tank2.tank);
-    stage.addChild(tank2.nozzle);
 
     firebase.auth().onAuthStateChanged(function(user) {
         if(user){
@@ -103,19 +92,29 @@ function keyboardKeys(event){
 
         switch(key){
             case 39:
-                tank1.moveForward();
+                game.currentTank.moveForward();
                 break;
             case 37:
-                tank1.moveBackward();
+                game.currentTank.moveBackward();
                 break;
             case 38:
-                tank1.setNozzle(-1*tank1.angle - 1);
+                game.currentTank.setNozzle(-1*game.currentTank.angle - 1);
                 break;
             case 40:
-                tank1.setNozzle(-1*tank1.angle + 1);
+                game.currentTank.setNozzle(-1*game.currentTank.angle + 1);
                 break;
             case 32:
-                game.weapon.fire(tank1.angle,game.weapon.velocity,tank1.tank.x,tank1.tank.y);
+                console.log(game.currentTank);
+                game.weapon.fire(game.currentTank.angle,game.weapon.velocity,game.currentTank.tank.x,game.currentTank.tank.y);
+                if(game.gamemode == "singlePlayer"){
+                    notifyUser("It's My Turn.");
+                    setTimeout(function(){
+                        computer.fire();
+                        notifyUser("It's Your Turn.");
+                    },5000);
+                }else if(game.gamemode == "multiPlayer"){
+                    game.flipTurn();
+                }
                 break;
             case 49:
                 game.selectWeapon("singleShot");
@@ -162,7 +161,7 @@ function chatbox(event){
                 send.style.display = "inline";
                 message.focus();
                 message.scrollIntoView();
-                message.value = message.value.substring(0,message.value.length - 1);
+                setTimeout(function(){message.value = "";},100);
             }else{
                 message.style.display = "none";
                 send.style.display = "none";

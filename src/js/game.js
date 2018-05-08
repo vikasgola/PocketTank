@@ -12,7 +12,14 @@ var game = new function(){
     this.score1;
     this.score2;
 
+    this.tank1;
+    this.tank2;
+
+    this.currentTank;
+
     this.weapon;
+
+    this.rounds = 10;
 
     this.selectWeapon = function(nameOfWeapon){
         switch(nameOfWeapon){
@@ -25,9 +32,9 @@ var game = new function(){
             case "fiveShot":
                 this.weapon = new weapon("fiveShot",60,"brown",10,10);
                 break;
-            case "oilShot":
-                this.weapon = new weapon("oilShot",120,"yellow",10,10);
-                break;
+            // case "oilShot":
+            //     this.weapon = new weapon("oilShot",120,"yellow",10,10);
+            //     break;
             case "straightShot":
                 this.weapon = new weapon("straightShot",120,"black",10,0);
                 break;
@@ -63,13 +70,33 @@ var game = new function(){
         stage.addChild(this.text2);
         stage.addChild(this.score1);
         stage.addChild(this.score2);
+
+
+        this.tank1.indexPos = Math.floor(terrain.points.length/6);
+        this.tank1.setPos(terrain.points[this.tank1.indexPos].x,terrain.points[this.tank1.indexPos].y);
+        this.tank1.nozzle.x += 36;
+        this.tank1.angle = 0;
+        stage.addChild(this.tank1.tank);
+        stage.addChild(this.tank1.nozzle);
+
+        this.tank2.indexPos = Math.floor(5*terrain.points.length/6);
+        this.tank2.setPos(terrain.points[this.tank2.indexPos].x,terrain.points[this.tank2.indexPos].y);
+        stage.addChild(this.tank2.tank);
+        this.tank2.angle = 180;
+        this.tank2.regX = 40;
+        this.tank2.regY = 15;
+        stage.addChild(this.tank2.nozzle);
     };
 
     this.flipTurn = function(){
         if(this.turn == 1){
             this.turn = 0;
+            this.currentTank = this.tank1; 
+            notifyUser("It's " + game.playerOne + " turn.");                        
         }else{
+            this.currentTank = this.tank2;            
             this.turn = 1;
+            notifyUser("It's " + game.playerTwo + " turn.");                
         }
     };
 
@@ -80,14 +107,15 @@ var game = new function(){
     }
 
     this.start = function(){
-        
         switch(this.gamemode){
             case "singlePlayer":
                 this.playerTwo = "Computer";
-                this.setLights();
+                this.setLights();     
                 singlePlayer();
                 break;
             case "multiPlayer":
+                this.playerTwo = "Other";
+                this.setLights();            
                 multiPlayer();
                 break;
             case "lanMultiplayer":
@@ -98,12 +126,33 @@ var game = new function(){
 
 
     function singlePlayer(){
+        game.currentTank = game.tank1;
         if(Math.random() < 0.5){
-            this.turn = 0;
+            game.turn = 0;
         }else{
-            this.turn = 1;
+            game.turn = 1;
         }
 
+        if(game.turn == 0){
+            game.turn = 1;
+            notifyUser("It's my turn.");         
+            computer.fire();
+        }else if(game.turn == 1){
+            notifyUser("It's your turn.");
+        }   
+    }
+
+
+    function multiPlayer(){
+        if(Math.random() < 0.5){
+            game.currentTank = game.tank1;
+            notifyUser("It's " + game.playerOne + " turn.");    
+            game.turn = 0;
+        }else{
+            game.currentTank = game.tank2;
+            notifyUser("It's " + game.playerTwo + " turn.");
+            game.turn = 1;
+        }
         
     }
 }

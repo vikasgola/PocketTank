@@ -22,3 +22,11 @@ function sendMessage(){
 socket.on("chat",function(data){
     output.innerHTML += "<p><strong>"+ data.email +"</strong>: " + data.message + "</p>";
 });
+
+
+function notifyUser(message){
+    output.innerHTML += "<p><strong>Computer</strong>: " + message + "</p>";
+    setTimeout(function(){
+        chat.scrollTop = chat.scrollHeight-chat.clientHeight;
+    },100);
+}

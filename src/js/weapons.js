@@ -12,6 +12,8 @@ function weapon(nameWeapon,power,color,size,gravity){
     this.weapon = new createjs.Shape();
     this.weapon.graphics.beginFill(this.color).drawCircle(0,0,this.size);
     
+    
+
     this.setSize = function(size){
         this.size = size;
     }
@@ -22,6 +24,7 @@ function weapon(nameWeapon,power,color,size,gravity){
     };
 
     this.fire = function(angleInitial,velocity,x,y){
+
         game.weapon.disableKeys(true,keyboardKeys);        
         switch(this.name){
             case "singleShot":
@@ -44,7 +47,9 @@ function weapon(nameWeapon,power,color,size,gravity){
                 chaserShot(this,angleInitial,velocity,x,y);
                 break;
         }
-        setTimeout(function(){game.weapon.disableKeys(false,keyboardKeys);},4000);        
+        setTimeout(function(){
+            game.weapon.disableKeys(false,keyboardKeys);
+        },5000);        
     };
 
     this.disableKeys = function(tf,listener){
@@ -62,12 +67,13 @@ function weapon(nameWeapon,power,color,size,gravity){
         x = x + 40;
         y = y - 20;
         var angle = angleInitial*Math.PI/180;
-        stage.addChild(single.weapon);   
+        stage.addChild(single.weapon);
         var attackpoint = -1,pat = [];
-
-        for(var j=0;x < terrain.width;j+=1){
+        
+        for(var j=0;x < terrain.width && x > 0;j+=1){
             x = velocity*Math.cos(angle)*j + single.weapon.x;
             y = -1*velocity*Math.sin(angle)*j + 0.5*single.gravity*j*j + single.weapon.y;
+            
 
             for(var i=0;i<terrain.points.length;i++){
                 if(Math.floor(terrain.points[i].x) == Math.floor(x)){
@@ -88,7 +94,7 @@ function weapon(nameWeapon,power,color,size,gravity){
             pat.push(x);pat.push(y);
             pat.push(x);pat.push(y);
         }
-        
+
         var lastpoint = {x:(pat[pat.length-2]+x)/2,y:(pat[pat.length-1]+y)/2};
 
         if((pat.length/2)%2 == 0){
@@ -97,6 +103,7 @@ function weapon(nameWeapon,power,color,size,gravity){
             pat.push(lastpoint.x);pat.push(lastpoint.y);
             pat.push(lastpoint.x);pat.push(lastpoint.y);
         }
+
 
         createjs.Tween.get(single.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(single.weapon)});
 
@@ -144,7 +151,7 @@ function weapon(nameWeapon,power,color,size,gravity){
         stage.addChild(main.weapon);
         var pat = [];
 
-        for(var j=0;x < terrain.width;j+=1){
+        for(var j=0;x < terrain.width  && x > 0;j+=1){
             x = velocity*Math.cos(angle)*j + main.weapon.x;
             y = -1*velocity*Math.sin(angle)*j + main.weapon.y;
             pat.push(x);
@@ -170,15 +177,26 @@ function weapon(nameWeapon,power,color,size,gravity){
         stage.addChild(main.weapon);   
         var attackpoint = -1,pat = [];
 
-        for(var j=0;x < terrain.width;j+=1){
+        for(var j=0;x < terrain.width  && x > 0;j+=1){
             y = -1*velocity*Math.sin(angle)*j + 0.5*main.gravity*j*j + main.weapon.y;
 
-            if( 100 + Math.floor(tank2.tank.x) >= Math.floor(x) && 
-                -100 + Math.floor(tank2.tank.x) <= Math.floor(x)){
-                x = tank2.tank.x + 50;
+            if(game.turn == 1){
+                if( 100 + Math.floor(game.tank2.tank.x) >= Math.floor(x) && 
+                -100 + Math.floor(game.tank2.tank.x) <= Math.floor(x)){
+                x = game.tank2.tank.x + 50;
+                }else{
+                    x = velocity*Math.cos(angle)*j + main.weapon.x;
+                }
             }else{
-                x = velocity*Math.cos(angle)*j + main.weapon.x;
+                if( 100 + Math.floor(game.tank1.tank.x) >= Math.floor(x) && 
+                -100 + Math.floor(game.tank1.tank.x) <= Math.floor(x)){
+                x = game.tank1.tank.x + 50;
+                }else{
+                    x = velocity*Math.cos(angle)*j + main.weapon.x;
+                }
             }
+
+            
 
             for(var i=0;i<terrain.points.length;i++){
                 if(Math.floor(terrain.points[i].x) == Math.floor(x)){
@@ -202,14 +220,18 @@ function weapon(nameWeapon,power,color,size,gravity){
         
         var lastpoint = {x:(pat[pat.length-2]+x)/2,y:(pat[pat.length-1]+y)/2};
 
-        if((pat.length/2)%2 == 0){
-            pat.push(lastpoint.x);pat.push(lastpoint.y);
-        }else if(x < terrain.width){
-            pat.push(lastpoint.x);pat.push(lastpoint.y);
-            pat.push(lastpoint.x);pat.push(lastpoint.y);
+        if(pat.length != 0){
+            if((pat.length/2)%2 == 0){
+                pat.push(lastpoint.x);pat.push(lastpoint.y);
+            }else if(x < terrain.width){
+                pat.push(lastpoint.x);pat.push(lastpoint.y);
+                pat.push(lastpoint.x);pat.push(lastpoint.y);
+            }
+            createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(main.weapon);});            
+        }else{
+            stage.removeChild(main.weapon);
         }
-
-        createjs.Tween.get(main.weapon).to({guide:{path:pat}},pat.length*100).call(function(){stage.removeChild(main.weapon)});
+        
 
     }
 }
