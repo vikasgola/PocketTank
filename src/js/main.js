@@ -8,8 +8,14 @@ var send = document.getElementById("send");
 
 if(localStorage["mode"]){
     document.getElementById("gamelevel").style.display = "none";
+    document.getElementById("gameend").style.display = "none";
+    document.getElementById("gamelan").style.display = "none"
+    document.getElementById("hostkey").style.display = "none"
+    
     if(localStorage["mode"] == "singlePlayer"){
         document.getElementById("gamelevel").style.display = "block";
+    }else if(localStorage["mode"] == "lanMultiplayer"){
+        document.getElementById("gamelan").style.display = "block";        
     }
     document.getElementById("game").style.display = "block";    
     loadAssests();
@@ -68,8 +74,7 @@ function init(){
     // terrain
     terrain.initalizePoints();
     terrain.addPoints(7,1);
-    terrain.draw(images.getResult("terrain"),images.getResult("grass"),10);
-    stage.addChild(terrain.shape);
+    
 
 
     // tanks
@@ -78,7 +83,7 @@ function init(){
 
 
     game.playerOne = localStorage["email"].substring(0, localStorage["email"].lastIndexOf("@")); 
-    if(localStorage["mode"] != "singlePlayer")
+    if(localStorage["mode"] == "multiPlayer" )
         game.start();    
 }
 
@@ -86,6 +91,17 @@ function resume(level){
     document.getElementById("gamelevel").style.display = "none";
     computer.setLevel(level);
     game.start();    
+}
+
+function lan(m){
+    share.setYouare(m);
+    document.getElementById("gamelan").style.display = "none";
+    if(m == "host"){
+        share.host();
+        game.start();
+    }else if(m == "join"){
+        document.getElementById("hostkey").style.display = "block";
+    }
 }
 
 
@@ -113,7 +129,7 @@ function keyboardKeys(event){
                 if(game.gamemode == "singlePlayer"){
                     notifyUser("It's My Turn.");
                     setTimeout(function(){
-                        game.flipTurn();                    
+                        game.flipTurn();  
                         computer.fire();
                         notifyUser("It's Your Turn.");
                     },5000);

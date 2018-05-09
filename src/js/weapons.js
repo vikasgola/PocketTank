@@ -122,7 +122,7 @@ function weapon(nameWeapon,power,color,size,gravity){
                 destroy(crash);
             });     
         }else{
-            stage.removeChild(main.weapon);
+            stage.removeChild(single.weapon);
         }
     }
 
@@ -272,7 +272,6 @@ function weapon(nameWeapon,power,color,size,gravity){
 
 
     function destroy(crash){
-        console.log(crash);
         if(crash == -1){
             var score = parseInt(game.score1.text.slice(7)) + game.weapon.power;
             game.score1.text = "Score: " + score;
@@ -280,5 +279,8 @@ function weapon(nameWeapon,power,color,size,gravity){
             var score = parseInt(game.score2.text.slice(7)) + game.weapon.power;
             game.score2.text = "Score: " + score;
         }
+
+        
+
     }
 }

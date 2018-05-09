@@ -15,11 +15,13 @@ var game = new function(){
     this.tank1;
     this.tank2;
 
+    this.lankey;
+
     this.currentTank;
 
     this.weapon;
 
-    this.rounds = 10;
+    this.rounds = 2;
 
     this.selectWeapon = function(nameOfWeapon){
         switch(nameOfWeapon){
@@ -50,11 +52,15 @@ var game = new function(){
     this.gamemode = localStorage["mode"];
 
     this.setLights = function(){
+        terrain.draw(images.getResult("terrain"),images.getResult("grass"),10);
+        stage.addChild(terrain.shape);
         this.text1 = new createjs.Text(this.playerOne, "32px Arial", "#ffffff");
         this.text2 = new createjs.Text(this.playerTwo, "32px Arial", "#ffffff");
 
         this.score1 = new createjs.Text("Score: 0", "24px Arial", "#ffffff");
         this.score2 = new createjs.Text("Score: 0", "24px Arial", "#ffffff");
+
+        this.lankey = new createjs.Text("Joinkey: " + share.hostkey, "24px Arial", "#ffffff");
         
         this.text1.x = 20;
         this.score1.x = 20;
@@ -66,11 +72,19 @@ var game = new function(){
         this.text2.y = 80;
         this.score2.y = 115;
 
+
+        this.lankey.x = width/2 - 20;
+        this.lankey.y = 20;
+
         stage.addChild(this.text1);
         stage.addChild(this.text2);
         stage.addChild(this.score1);
         stage.addChild(this.score2);
 
+        if(this.gamemode == "lanMultiplayer"){
+            stage.addChild(this.lankey);            
+        }
+        
 
         this.tank1.indexPos = Math.floor(terrain.points.length/6);
         this.tank1.setPos(terrain.points[this.tank1.indexPos].x - 20,terrain.points[this.tank1.indexPos].y);
@@ -89,22 +103,47 @@ var game = new function(){
     };
 
     this.flipTurn = function(){
-        if(this.turn == 1){
-            this.turn = 0;
-            this.currentTank = this.tank1; 
-            notifyUser("It's " + game.playerOne + " turn.");                        
+        if(this.rounds != 0){
+            this.rounds--;
+            if(this.turn == 1){
+                this.turn = 0;
+                this.currentTank = this.tank1; 
+                notifyUser("It's " + game.playerOne + " turn.");                        
+            }else{
+                this.currentTank = this.tank2;            
+                this.turn = 1;
+                notifyUser("It's " + game.playerTwo + " turn.");                
+            }
         }else{
-            this.currentTank = this.tank2;            
-            this.turn = 1;
-            notifyUser("It's " + game.playerTwo + " turn.");                
+            this.gameend();
         }
     };
+
+    this.gameend = function(){
+        document.getElementById("game").style.display = "none";
+        document.getElementById("gameend").style.display = "block";
+        if( parseInt(game.score1.text.slice(7)) >  parseInt(game.score2.text.slice(7)))
+            document.getElementById("gameend").innerHTML += "<h2 class=\"align-center text-center text-white\"> Player one won.</p>"; 
+        else if(parseInt(game.score1.text.slice(7)) ==  parseInt(game.score2.text.slice(7)))
+            document.getElementById("gameend").innerHTML += "<h2 class=\"align-center text-center text-white\"> Match drawn.</p>";             
+        else
+            document.getElementById("gameend").innerHTML += "<h2 class=\"align-center text-center text-white\"> Player two won.</p>";           
+            
+        document.getElementById("gameend").innerHTML += "<button onclick=\"game.restart()\" class=\"btn btn-black align-center\">Game Restart</button>";           
+        
+    };
+
+    this.restart = function(){
+        document.getElementById("game").style.display = "none";
+        document.getElementById("gameend").style.display = "block";
+        window.location.reload(true);
+    }
 
 
     this.exit = function(){
         localStorage["mode"] = "";
         window.location.pathname = "/html/menu.html";
-    }
+    };
 
     this.start = function(){
         switch(this.gamemode){
@@ -119,7 +158,9 @@ var game = new function(){
                 multiPlayer();
                 break;
             case "lanMultiplayer":
-                lanMultiplayer();
+                this.setLights();
+                if(share.host == "host")
+                    lanMultiplayer();
                 break;
         }
     };
@@ -136,6 +177,7 @@ var game = new function(){
         if(game.turn == 1){
             game.currentTank = game.tank2;
             computer.fire();
+            game.rounds--;
         }else if(game.turn == 0){
             notifyUser("It's " + game.playerOne + " turn.");            
             game.currentTank = game.tank1; 
@@ -153,6 +195,20 @@ var game = new function(){
             notifyUser("It's " + game.playerTwo + " turn.");
             game.turn = 1;
         }
+    }
+
+
+    function lanMultiplayer(){
+        if(Math.random() < 0.5){
+            game.currentTank = game.tank1;
+            notifyUser("It's " + game.playerOne + " turn.");
+            game.turn = 0;
+        }else{
+            game.currentTank = game.tank2;
+            notifyUser("It's " + game.playerTwo + " turn.");
+            game.turn = 1;
+        }
+        share.turn(game.turn);
         
     }
 }

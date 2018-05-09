@@ -51,10 +51,20 @@ canvas{
 	}
 }
 
-.gamelevel{
+.gamelevel , #gamelan, #hostkey{
     position: absolute;
     top: 0px;
     left: 0px;
     right: 0px;
     bottom: 0px;
+}
+
+#gameend{
+    height: 50%;
+    width: 100%;
+    margin-top: 10%;
+}
+
+#gameend h1{
+    font-size: 60px;
 }

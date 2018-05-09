@@ -1,5 +1,5 @@
 
-var socket = io.connect("http://localhost:3000");
+var socket = io.connect(window.location.origin);
 var output = document.getElementById("output");
 var chat = document.getElementById("chat-window");
 
@@ -11,7 +11,7 @@ send.style.display = "none";
 
 function sendMessage(){
     var message = document.getElementById("message");
-    socket.emit("chat",{ email:firebase.auth().currentUser.email.substring(0, firebase.auth().currentUser.email.lastIndexOf("@")) , message:message.value});
+    socket.emit("chat",{hostkey:share.hostkey , email:firebase.auth().currentUser.email.substring(0, firebase.auth().currentUser.email.lastIndexOf("@")) , message:message.value});
 
     message.value = "";
     setTimeout(function(){
