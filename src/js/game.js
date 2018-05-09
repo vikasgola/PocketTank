@@ -21,7 +21,7 @@ var game = new function(){
 
     this.weapon;
 
-    this.rounds = 2;
+    this.rounds = 4;
 
     this.selectWeapon = function(nameOfWeapon){
         switch(nameOfWeapon){
@@ -114,6 +114,8 @@ var game = new function(){
                 this.turn = 1;
                 notifyUser("It's " + game.playerTwo + " turn.");                
             }
+
+            share.flipTurn();
         }else{
             this.gameend();
         }
@@ -129,7 +131,7 @@ var game = new function(){
         else
             document.getElementById("gameend").innerHTML += "<h2 class=\"align-center text-center text-white\"> Player two won.</p>";           
             
-        document.getElementById("gameend").innerHTML += "<button onclick=\"game.restart()\" class=\"btn btn-black align-center\">Game Restart</button>";           
+        document.getElementById("gameend").innerHTML += "<button onclick=\"game.restart()\" class=\"btn btn-black align-center d-block\">Game Restart</button>";           
         
     };
 
@@ -159,8 +161,8 @@ var game = new function(){
                 break;
             case "lanMultiplayer":
                 this.setLights();
-                if(share.host == "host")
-                    lanMultiplayer();
+                if(share.youare == "host")
+                lanMultiplayer();
                 break;
         }
     };
@@ -199,6 +201,8 @@ var game = new function(){
 
 
     function lanMultiplayer(){
+
+        console.log("DSFsdsda");
         if(Math.random() < 0.5){
             game.currentTank = game.tank1;
             notifyUser("It's " + game.playerOne + " turn.");
@@ -208,7 +212,6 @@ var game = new function(){
             notifyUser("It's " + game.playerTwo + " turn.");
             game.turn = 1;
         }
-        share.turn(game.turn);
         
     }
 }

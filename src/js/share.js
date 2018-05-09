@@ -34,20 +34,42 @@ var share = new function(){
                 game.playerTwo = game.playerOne;
                 game.playerOne = data.name;
                 game.start();
+    
+                share.turn(game.turn);
+                
             }
         });
 
 
-        share.on("turn", function(data){
+        socket.on("turn", function(data){
             game.turn = data.turn;
             if(game.turn == 0){
+                game.currentTank = game.tank1;                
                 notifyUser("It's " + game.playerOne + " turn.");            
             }else{
+                game.currentTank = game.tank2;            
                 notifyUser("It's " + game.playerTwo + " turn.");            
             }
         });
+
+        socket.on("fliped", function(data){
+            game.flipTurn();
+        });
+
+        socket.on("fired", function(data){
+            game.weapon.fire(data.angle, data.velocity, data.x, data.y);            
+        });
     };
 
+    this.flipTurn = function(){
+        socket.emit("fliped",share.hostkey);
+    };
+
+    this.fired = function(angle,velocity,x,y){
+        var hostkey = this.hostkey;
+        socket.emit("fired" , {hostkey,angle,velocity,x,y});
+    };
+ 
     this.turn = function(turn){
         socket.emit("turn",{hostkey:share.hostkey ,turn:turn});
     };

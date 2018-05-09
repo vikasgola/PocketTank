@@ -36,11 +36,23 @@ io.on('connection',function(socket){
     });
 
     socket.on("chat",function(data){
+        console.log(data);        
         io.sockets.in(data.hostkey).emit("chat",data);
     });
 
     socket.on("turn",function(data){
+        console.log(data);        
         io.sockets.in(data.hostkey).emit("turn",data);
+    });
+
+    socket.on("fliped",function(data){
+        console.log(data);        
+        io.sockets.in(data).emit("fliped",data);
+    });
+
+    socket.on("fired",function(data){
+        console.log(data);        
+        io.sockets.in(data.hostkey).emit("fired",data);
     });
 
     socket.on("startingData" , function(data){

@@ -125,7 +125,8 @@ function keyboardKeys(event){
                 game.currentTank.setNozzle(-1*game.currentTank.angle + 1);
                 break;
             case 32:
-                game.weapon.fire(game.currentTank.angle,game.weapon.velocity,game.currentTank.tank.x,game.currentTank.tank.y);
+                share.fired(game.currentTank.angle, game.weapon.velocity, game.currentTank.tank.x, game.currentTank.tank.y);
+                game.weapon.fire(game.currentTank.angle, game.weapon.velocity, game.currentTank.tank.x, game.currentTank.tank.y);
                 if(game.gamemode == "singlePlayer"){
                     notifyUser("It's My Turn.");
                     setTimeout(function(){
@@ -133,7 +134,7 @@ function keyboardKeys(event){
                         computer.fire();
                         notifyUser("It's Your Turn.");
                     },5000);
-                }else if(game.gamemode == "multiPlayer"){
+                }else if(game.gamemode == "multiPlayer" || game.gamemode == "lanMultiplayer"){
                     game.flipTurn();
                 }
                 break;
