@@ -21,7 +21,7 @@ var game = new function(){
 
     this.weapon;
 
-    this.rounds = 4;
+    this.rounds = 10;
 
     this.selectWeapon = function(nameOfWeapon){
         switch(nameOfWeapon){
